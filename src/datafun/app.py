@@ -1,7 +1,7 @@
 """src/datafun/app.py - Project script.
 
-Author: Denise Case
-Date: 2026-09
+Author:Ronni Merrill
+Date: 2026-10
 
 HOW TO RUN THIS FILE:
 
@@ -15,13 +15,10 @@ uv run python -m datafun.app
 
 DOMAIN:
 
-A dataset of penguins.
+A dataset of airline safety.
 See docs/data-card.md for more information about the dataset.
 
 EXPLORE:
-
-Earlier analysis showed relationships among
-numeric penguin measurements.
 
 In this project, we use one numeric feature
 to predict one numeric target
@@ -82,7 +79,7 @@ LOG: logging.Logger = get_logger("P06", level="DEBUG")
 
 # === LOCATE THE DATA FILE ===
 
-DATA_FILE_PATH: Final[Path] = Path("data") / "raw" / "penguins.csv"
+DATA_FILE_PATH: Final[Path] = Path("data") / "raw" / "airline-safety.csv"
 
 # === LOCATE THE CHART OUTPUT ===
 
@@ -94,7 +91,7 @@ RESIDUAL_CHART_PATH: Final[Path] = CHART_DIR / "regression-residuals.png"
 
 # === DETERMINE WHAT ONE ROW REPRESENTS ===
 
-GRAIN: Final[str] = "one penguin"
+GRAIN: Final[str] = "one airline"
 
 # === DECLARE THE TARGET ===
 
@@ -102,7 +99,7 @@ GRAIN: Final[str] = "one penguin"
 # This must match a numeric column name EXACTLY
 # as it appears in the data file.
 
-TARGET_COLUMN: Final[str] = "body_mass_g"
+TARGET_COLUMN: Final[str] = "incidents_00_14"
 
 # === DECLARE THE FEATURE ===
 
@@ -111,7 +108,7 @@ TARGET_COLUMN: Final[str] = "body_mass_g"
 # This must match a numeric column name EXACTLY
 # as it appears in the data file.
 
-FEATURE_COLUMN: Final[str] = "bill_length_mm"
+FEATURE_COLUMN: Final[str] = "avail_seat_km_per_week"
 
 # === DOCUMENT WHY THE FEATURE MIGHT HELP ===
 
@@ -120,15 +117,18 @@ FEATURE_COLUMN: Final[str] = "bill_length_mm"
 # The model and evaluation will provide evidence.
 
 FEATURE_DECISION: Final[str] = r"""
-I want to predict body mass.
+I want to predict the number of airline incidents
+from 2000 through 2014.
 
-I selected bill length as the feature.
+I selected avail_seat_km_per_week as the feature.
 
-A bigger penguin may have both a longer bill and more mass,
-so bill length might contain useful information
-for predicting body mass.
+A higher number of available seat kilometers per week might indicate a larger airline operation
+with more passenger capacity and activity.
 
-I do not know yet how well bill length will predict body mass.
+Therefore, avail_seat_km_per_week might contain useful
+information for predicting the number of incidents.
+
+I do not know yet how well avail_seat_km_per_week will predict the number of incidents.
 The modeling process will provide evidence.
 """
 
@@ -181,8 +181,8 @@ BASELINE_DECISION: Final[str] = r"""
 Before evaluating the LinearRegression model,
 I need a simple baseline for comparison.
 
-The baseline will ignore bill length
-and predict the average body mass
+The baseline will ignore avail_seat_km_per_week
+and predict the average number of incidents
 from the training data for every test observation.
 
 A useful predictive model should improve
@@ -437,9 +437,9 @@ def main() -> None:
     # CUSTOM: The analyst can customize
     # the returned Matplotlib Axes object.
 
-    prediction_ax.set_title("Bill Length vs. Body Mass")
-    prediction_ax.set_xlabel("Bill Length (mm)")
-    prediction_ax.set_ylabel("Body Mass (g)")
+    prediction_ax.set_title("Available Seat Kilometers vs Incidents (2000-2014)")
+    prediction_ax.set_xlabel("Available Seat Kilometers per Week")
+    prediction_ax.set_ylabel("Number of Incidents (2000-2014)")
     prediction_ax.legend()
 
     save_chart(
@@ -474,9 +474,9 @@ def main() -> None:
     # CUSTOM: The analyst can customize
     # the returned Matplotlib Axes object.
 
-    residual_ax.set_title("Residuals for Bill Length Model")
-    residual_ax.set_xlabel("Bill Length (mm)")
-    residual_ax.set_ylabel("Residual (Actual - Predicted Body Mass)")
+    residual_ax.set_title("Residuals for Airline Incidents Model")
+    residual_ax.set_xlabel("Available Seat Kilometers per Week")
+    residual_ax.set_ylabel("Residual (Actual - Predicted Incidents)")
 
     save_chart(
         residual_ax,
@@ -500,22 +500,30 @@ def main() -> None:
     # in a simple multi-line raw string.
 
     LOG.info(r"""CUSTOM OBSERVATIONS:
-    I used bill length to predict body mass.
+   I used available seat kilometers per week
+   to predict airline incidents from 2000 through 2014.
 
-    The baseline RMSE was ...
-    The LinearRegression RMSE was ...
+    The baseline RMSE was 6.40
+    The LinearRegression RMSE was 3.83
 
     Compared with the baseline,
-    the LinearRegression model ...
+    the LinearRegression model had a lower RMSE,
+    which indicates that it made more accurate predictions on the test data.
 
-    The model R-squared was ...
+    The model R-squared was 0.641,
+    meaning the model explained about 64.1% of the variation in the test data.
 
-    In the residual plot, I observed ...
+    In the residual plot, I observed that most residuals were relatively close to zero,
+    but there were some larger positive and negative residuals.
 
     Based on this evidence,
-    I conclude ...
+    I conclude that available seat kilometers per week provides useful
+    information for predicting airline incidents,
+    although the model does not explain all of the variation in incidents.
 
-    Next, I would like to try ...
+    Next, I would like to try additional features,
+    such as incidents from 1985 through 1999, fatal accidents, and fatality counts,
+    to see if they improve the model's predictive performance.
     """)
 
     # ============================================================
