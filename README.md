@@ -17,16 +17,7 @@
 This project introduces **linear regression**, the process of
 fitting a model to data and using it to make predictions.
 
-Think about two variables that might be related:
-
-- Does study time predict exam scores?
-- Does temperature predict energy usage?
-- Does advertising spend predict revenue?
-
-Your goal: run the example, read the code,
-and apply the same approach to a dataset and question of your own choosing.
-
-For data suggestions, please see [data/raw/README.md](data/raw/README.md).
+I used the available seat kilometers per week from the Airline Safety data set to predict airline incidents from 2000 through 2014. 
 
 ## Standard Process
 
