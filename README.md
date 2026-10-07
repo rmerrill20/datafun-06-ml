@@ -19,6 +19,10 @@ fitting a model to data and using it to make predictions.
 
 I used the available seat kilometers per week from the Airline Safety data set to predict airline incidents from 2000 through 2014. 
 
+## Observations
+
+
+
 ## Standard Process
 
 ```text
