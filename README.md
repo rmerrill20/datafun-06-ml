@@ -21,6 +21,24 @@ I used the available seat kilometers per week from the Airline Safety data set t
 
 ## Observations
 
+    The baseline RMSE was 6.40
+    The LinearRegression RMSE was 3.83
+
+    Compared with the baseline,
+    the LinearRegression model had a lower RMSE,
+    which indicates that it made more accurate predictions on the test data.
+
+    The model R-squared was 0.641,
+    meaning the model explained about 64.1% of the variation in the test data.
+
+    In the residual plot, I observed that most residuals were relatively close to zero,
+    but there were some larger positive and negative residuals.
+
+    Based on this evidence,
+    I conclude that available seat kilometers per week provides useful
+    information for predicting airline incidents,
+    although the model does not explain all of the variation in incidents.
+    
 
 
 ## Standard Process
