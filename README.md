@@ -140,7 +140,7 @@ uv run pre-commit run --all-files
 git add -A
 uv run pre-commit run --all-files
 
-# run the penguin example: is there a linear relationship?
+# run the airline safety example: is there a linear relationship?
 uv run python -m datafun.app
 
 # do chores
